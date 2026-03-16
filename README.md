@@ -1,73 +1,57 @@
-# React + TypeScript + Vite
+<div align="center">
+	<br>
+	<br>
+    <picture>
+      <source media="(prefers-color-scheme: light)" srcset="src/assets/svg/react-pop-logo.svg">
+      <img src="src/assets/svg/react-pop-logo.svg" alt="react-pop logo" width="600">
+    </picture>
+	<br>
+	<br>
+  <strong>React Pop open source library with resuable components</strong>
+  <br />
+  <sub>New components are coming soon.</sub>
+	<br>
+	<br>
+  <a href=""><img alt="GitHub Repo stars" src=""></a>
+  <a href=""><img alt="License" src=""></a>
+  <br>
+  <br>
+  <a href="">📖 Documentation</a> · <a href="">⚡ Quick Start</a> · <a href="">🛠️ Tools</a>
+</div>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<br />
 
-Currently, two official plugins are available:
+<div align="center">
+  <img src="" alt="React Pop Showcase" width="1000">
+</div>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+<br />
 
-## React Compiler
+## ✨ React Pop
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+React Pop will provide you **create beautiful UI faster**. You can manipulate the components however you like or leave them as it is, while it provides you amazing animations.
 
-## Expanding the ESLint configuration
+## 🚀 Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Coming soon**
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+<hr />
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 📦 Installation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+React Pop supports [shadcn](https://ui.shadcn.com/)
+
+```bash
+# Example: Add a component via shadcn
+npx shadcn@latest
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+<hr />
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 👤 Creator
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+**[LazosPap](https://github.com/LazosPap)** — Creator
+
+## 📄 License
+
+Free for personal and commercial use.
