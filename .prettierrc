@@ -8,5 +8,13 @@
   "vueIndentScriptAndStyle": false,
   "htmlWhitespaceSensitivity": "ignore",
   "singleAttributePerLine": false,
-  "plugins": ["prettier-plugin-tailwindcss", "prettier-plugin-classnames", "prettier-plugin-merge"]
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss",
+    "prettier-plugin-classnames",
+    "prettier-plugin-merge"
+  ],
+  "importOrder": ["<BUILTIN_MODULES>", "<THIRD_PARTY_MODULES>", "^@?\\w", "^@/", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }
