@@ -1,6 +1,7 @@
-import { Outlet, createFileRoute } from "@tanstack/react-router";
+import { Outlet, createFileRoute, useLocation } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
+import { Logo } from "@/assets/svg";
 import { Header } from "@/components/layout/header";
 
 export const Route = createFileRoute("/(home)")({
@@ -8,9 +9,19 @@ export const Route = createFileRoute("/(home)")({
 });
 
 export function HomeLayout({ children }: { children?: ReactNode }) {
+  const location = useLocation();
+
+  const menuItems = ["Home", "Docs"];
+
+  const getActiveMenu = () => {
+    if (location.pathname === "/") return "Home";
+    if (location.pathname === "/docs") return "Docs";
+
+    return undefined;
+  };
   return (
     <div className="container mx-auto flex min-h-screen flex-col px-4">
-      <Header />
+      <Header logo={Logo} navLinks={menuItems} activeMenu={getActiveMenu()} />
 
       <main className="w-full grow">{children ?? <Outlet />}</main>
     </div>
