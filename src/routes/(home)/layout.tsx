@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import { Logo } from "@/assets/svg";
 import { Header } from "@/components/layout/header";
+import { NAVLINKS } from "@/constants";
 
 export const Route = createFileRoute("/(home)")({
   component: HomeLayout
@@ -10,8 +11,6 @@ export const Route = createFileRoute("/(home)")({
 
 export function HomeLayout({ children }: { children?: ReactNode }) {
   const location = useLocation();
-
-  const menuItems = ["Home", "Docs"];
 
   const getActiveMenu = () => {
     if (location.pathname === "/") return "Home";
@@ -21,7 +20,7 @@ export function HomeLayout({ children }: { children?: ReactNode }) {
   };
   return (
     <div className="container mx-auto flex min-h-screen flex-col px-4">
-      <Header logo={Logo} navLinks={menuItems} activeMenu={getActiveMenu()} />
+      <Header logo={Logo} navLinks={NAVLINKS} activeMenu={getActiveMenu()} />
 
       <main className="w-full grow">{children ?? <Outlet />}</main>
     </div>

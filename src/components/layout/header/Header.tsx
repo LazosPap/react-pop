@@ -26,6 +26,25 @@ export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
   const svgRef = useRef<SVGSVGElement | null>(null);
 
   useGSAP(() => {
+    const navTween = gsap.timeline({
+      scrollTrigger: {
+        trigger: "header",
+        /** When the bottom of the navbar reaches the top of the viewport then start the animation. */
+        start: "bottom top",
+        scrub: true
+      }
+    });
+    /** Blur the background for the whole navbar we have. */
+    navTween.fromTo(
+      "header",
+      { backgroundColor: "transparent" },
+      {
+        backgroundColor: "rgba(248, 249, 250, 0.6)",
+        backdropFilter: "blur(10px)",
+        duration: 1,
+        ease: "power1.inOut"
+      }
+    );
     // Animate header entrance
     gsap.from(container.current, {
       y: -80,
@@ -43,7 +62,7 @@ export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
   return (
     <header
       ref={container}
-      className="fixed top-5 left-1/2 z-50 flex h-40 w-screen -translate-x-1/2 items-center px-16"
+      className="fixed left-1/2 z-50 flex h-40 w-screen -translate-x-1/2 items-center px-16"
     >
       <div className="container mx-auto flex w-full items-center justify-between px-4">
         {/* Left: Logo */}

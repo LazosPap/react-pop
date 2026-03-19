@@ -36,7 +36,8 @@ export function animateSvg(svgElement: SVGSVGElement) {
       drawSVG: "100%",
       stagger: 0.08, // stagger between letters
       ease: "power1.inOut",
-      duration: 1
+      duration: 1,
+      delay: 0.3
     },
     0
   ).to(
