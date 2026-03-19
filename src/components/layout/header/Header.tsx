@@ -52,9 +52,11 @@ export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
             <img src={logo} alt="Logo" className="h-full w-full object-contain" />
           </Link>
         </div>
-        <div className="flex h-full w-50 justify-center">
-          <LogoText ref={svgRef} />
-        </div>
+        <Link to="/">
+          <div className="flex h-full w-50 justify-center">
+            <LogoText ref={svgRef} />
+          </div>
+        </Link>
         {/* Center Nav */}
         <div className="flex flex-1 justify-center">
           <nav className="text-md flex gap-2 font-medium">
