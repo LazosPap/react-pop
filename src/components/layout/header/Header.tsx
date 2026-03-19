@@ -1,6 +1,7 @@
 import { useGSAP } from "@gsap/react";
 import { Link } from "@tanstack/react-router";
 import gsap from "gsap";
+import { Menu } from "lucide-react";
 import { useRef } from "react";
 
 import { LogoText } from "@/assets/svg";
@@ -62,22 +63,25 @@ export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
   return (
     <header
       ref={container}
-      className="fixed left-1/2 z-50 flex h-40 w-screen -translate-x-1/2 items-center px-16"
+      className="fixed left-1/2 z-50 flex h-40 w-screen -translate-x-1/2 items-center md:px-16"
     >
+      {/* Desktop */}
       <div className="container mx-auto flex w-full items-center justify-between px-4">
-        {/* Left: Logo */}
-        <div className="flex items-center">
-          <Link to="/" className="h-32 w-32">
+        {/* LEFT: Logo + LogoText */}
+        <div className="flex items-center gap-2 md:gap-4">
+          <Link to="/" className="h-20 w-20 sm:h-24 sm:w-24 md:h-32 md:w-32">
             <img src={logo} alt="Logo" className="h-full w-full object-contain" />
           </Link>
+
+          <Link to="/" className="flex items-center">
+            <div className="w-30 sm:w-32 md:w-40 lg:w-52">
+              <LogoText ref={svgRef} className="h-auto w-full" />
+            </div>
+          </Link>
         </div>
-        <Link to="/">
-          <div className="flex h-full w-50 justify-center">
-            <LogoText ref={svgRef} />
-          </div>
-        </Link>
+
         {/* Center Nav */}
-        <div className="flex flex-1 justify-center">
+        <div className="hidden flex-1 justify-center md:flex">
           <nav className="text-md flex gap-2 font-medium">
             {navLinks.map((item, index) => (
               <Link
@@ -95,6 +99,24 @@ export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
             ))}
           </nav>
         </div>
+      </div>
+      <div className="flex flex-col gap-1 md:hidden">
+        <Menu className="h-8 w-8" />
+      </div>
+
+      {/* Mobile Menu */}
+      <div className="overflow-hidden bg-white/90 backdrop-blur-md md:hidden" style={{ height: 0 }}>
+        <nav className="flex flex-col items-center gap-4 py-6">
+          {navLinks.map((item, index) => (
+            <Link
+              key={index}
+              to={item === "Home" ? "/" : item.toLowerCase()}
+              className={`text-lg font-medium ${item === activeMenu ? "text-primary" : ""}`}
+            >
+              {item}
+            </Link>
+          ))}
+        </nav>
       </div>
     </header>
   );
