@@ -3,6 +3,9 @@ import { Link } from "@tanstack/react-router";
 import gsap from "gsap";
 import { useRef } from "react";
 
+import { LogoText } from "@/assets/svg";
+import { animateSvg } from "@/lib/gsap";
+
 /**
  * Header component to display a fixed top navbar.
  *
@@ -19,21 +22,23 @@ export interface HeaderProps {
 }
 
 export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
-  const container = useRef(null);
+  const container = useRef<HTMLDivElement | null>(null);
+  const svgRef = useRef<SVGSVGElement | null>(null);
 
-  /** Slide left to right the navbar. */
-  /** @TODO CROP THE POPCORN FROM THE SVG LOGO SO WE CAN ANIMATE THEM WITH GSAP ONHOVER */
-  useGSAP(
-    () => {
-      gsap.from(container.current, {
-        x: -100,
-        opacity: 0,
-        duration: 1,
-        ease: "power2.out"
-      });
-    },
-    { scope: container }
-  );
+  useGSAP(() => {
+    // Animate header entrance
+    gsap.from(container.current, {
+      y: -80,
+      opacity: 0,
+      duration: 1,
+      ease: "power2.out"
+    });
+
+    /** Call the animateSvg function to draw the svg letters of the logo */
+    if (svgRef.current) {
+      animateSvg(svgRef.current);
+    }
+  }, []);
 
   return (
     <header
@@ -42,12 +47,14 @@ export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
     >
       <div className="container mx-auto flex w-full items-center justify-between px-4">
         {/* Left: Logo */}
-        <div className="flex w-44 items-center">
+        <div className="flex items-center">
           <Link to="/" className="h-32 w-32">
             <img src={logo} alt="Logo" className="h-full w-full object-contain" />
           </Link>
         </div>
-
+        <div className="flex h-full w-50 justify-center">
+          <LogoText ref={svgRef} />
+        </div>
         {/* Center Nav */}
         <div className="flex flex-1 justify-center">
           <nav className="text-md flex gap-2 font-medium">
