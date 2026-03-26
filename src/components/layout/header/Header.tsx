@@ -1,10 +1,11 @@
 import { useGSAP } from "@gsap/react";
 import { Link } from "@tanstack/react-router";
 import gsap from "gsap";
-import { Menu } from "lucide-react";
+import { MenuIcon } from "lucide-react";
 import { useRef } from "react";
 
 import { LogoText } from "@/assets/svg";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { animateSvg } from "@/lib/gsap";
 
 /**
@@ -26,7 +27,11 @@ export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
   const container = useRef<HTMLDivElement | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
 
+  const tl = useRef<gsap.core.Timeline | null>(null);
+
   useGSAP(() => {
+    tl.current = gsap.timeline({ paused: true });
+
     const navTween = gsap.timeline({
       scrollTrigger: {
         trigger: "header",
@@ -35,6 +40,7 @@ export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
         scrub: true
       }
     });
+
     /** Blur the background for the whole navbar we have. */
     navTween.fromTo(
       "header",
@@ -46,13 +52,38 @@ export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
         ease: "power1.inOut"
       }
     );
-    // Animate header entrance
+
+    /** Animate header entrance */
     gsap.from(container.current, {
       y: -80,
       opacity: 0,
       duration: 1,
       ease: "power2.out"
     });
+
+    tl.current.to(
+      "#top-line",
+      {
+        // Top line rotate and move down
+        rotate: 45,
+        y: 5.5,
+        duration: 1,
+        ease: "expo.out"
+      },
+      0
+    ); // Starts immediately after click
+
+    tl.current.to(
+      "#bottom-line",
+      {
+        // Bottom line rotate and move up
+        rotate: -45,
+        y: -5.5,
+        duration: 1,
+        ease: "expo.out" // Fast start, very smooth end
+      },
+      "<"
+    ); // Starts immediately with previous animation
 
     /** Call the animateSvg function to draw the svg letters of the logo */
     if (svgRef.current) {
@@ -67,9 +98,8 @@ export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
     >
       {/* Desktop */}
       <div className="container mx-auto flex w-full items-center justify-between px-4">
-        {/* LEFT: Logo + LogoText */}
         <div className="flex items-center gap-2 md:gap-4">
-          <Link to="/" className="h-20 w-20 sm:h-24 sm:w-24 md:h-32 md:w-32">
+          <Link to="/" className="h-24 w-24 sm:h-32 sm:w-32 md:h-32 md:w-32">
             <img src={logo} alt="Logo" className="h-full w-full object-contain" />
           </Link>
 
@@ -100,9 +130,27 @@ export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
           </nav>
         </div>
       </div>
-      <div className="flex flex-col gap-1 md:hidden">
-        <Menu className="h-8 w-8" />
-      </div>
+
+      {/* Hamburger Menu */}
+      <Sheet>
+        <SheetTrigger asChild>
+          <div className="flex flex-col gap-1 md:hidden">
+            <div
+              className="bg-accent flex h-12 w-12 cursor-pointer flex-col items-center
+                justify-center gap-[0.4rem] rounded-full md:h-20 md:w-20"
+            >
+              <MenuIcon className="h-8 w-8" />
+            </div>
+          </div>
+        </SheetTrigger>
+        <SheetContent className="overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle>
+              <img src={logo} className="h-24 w-24 dark:invert" alt="asd" />
+            </SheetTitle>
+          </SheetHeader>
+        </SheetContent>
+      </Sheet>
 
       {/* Mobile Menu */}
       <div className="overflow-hidden bg-white/90 backdrop-blur-md md:hidden" style={{ height: 0 }}>
