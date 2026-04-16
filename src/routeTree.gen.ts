@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as homeLayoutRouteImport } from './routes/(home)/layout'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as homeDocsRouteImport } from './routes/(home)/docs'
 
 const homeLayoutRoute = homeLayoutRouteImport.update({
   id: '/(home)',
@@ -21,29 +22,37 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const homeDocsRoute = homeDocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => homeLayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/docs': typeof homeDocsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/docs': typeof homeDocsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/(home)': typeof homeLayoutRoute
+  '/(home)': typeof homeLayoutRouteWithChildren
+  '/(home)/docs': typeof homeDocsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/docs'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/' | '/(home)'
+  to: '/' | '/docs'
+  id: '__root__' | '/' | '/(home)' | '/(home)/docs'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  homeLayoutRoute: typeof homeLayoutRoute
+  homeLayoutRoute: typeof homeLayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -62,12 +71,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(home)/docs': {
+      id: '/(home)/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof homeDocsRouteImport
+      parentRoute: typeof homeLayoutRoute
+    }
   }
 }
 
+interface homeLayoutRouteChildren {
+  homeDocsRoute: typeof homeDocsRoute
+}
+
+const homeLayoutRouteChildren: homeLayoutRouteChildren = {
+  homeDocsRoute: homeDocsRoute,
+}
+
+const homeLayoutRouteWithChildren = homeLayoutRoute._addFileChildren(
+  homeLayoutRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  homeLayoutRoute: homeLayoutRoute,
+  homeLayoutRoute: homeLayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

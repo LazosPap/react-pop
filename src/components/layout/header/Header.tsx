@@ -5,6 +5,7 @@ import { MenuIcon } from "lucide-react";
 import { useRef } from "react";
 
 import { LogoText } from "@/assets/svg";
+import { PopcornAnimation } from "@/components/layout/header/PopcornAnimation";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { animateSvg } from "@/lib/gsap";
 
@@ -14,6 +15,7 @@ import { animateSvg } from "@/lib/gsap";
  * @param logo - Accepts a string so you can place the logo image.
  * @param navLinks - navLinks accepts an array so you can map the links.
  * @param activeMenu - activeMenu(optional) we pass a string of the route name we want.
+ * @param popcorn - Popcorn images(optional) to animate the array of the popcorn for logo.
  * @returns - The rendered header component.
  */
 
@@ -21,6 +23,7 @@ export interface HeaderProps {
   logo: string;
   navLinks: string[];
   activeMenu?: string;
+  popcorn?: string[];
 }
 
 export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
@@ -34,7 +37,7 @@ export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
 
     const navTween = gsap.timeline({
       scrollTrigger: {
-        trigger: "header",
+        trigger: container.current,
         /** When the bottom of the navbar reaches the top of the viewport then start the animation. */
         start: "bottom top",
         scrub: true
@@ -93,15 +96,13 @@ export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
 
   return (
     <header
-      ref={container}
       className="fixed left-1/2 z-50 flex h-40 w-screen -translate-x-1/2 items-center md:px-16"
     >
       {/* Desktop */}
       <div className="container mx-auto flex w-full items-center justify-between px-4">
         <div className="flex items-center gap-2 md:gap-4">
-          <Link to="/" className="h-24 w-24 sm:h-32 sm:w-32 md:h-32 md:w-32">
-            <img src={logo} alt="Logo" className="h-full w-full object-contain" />
-          </Link>
+          {/* Popcorn animation component */}
+          <PopcornAnimation />
 
           <Link to="/" className="flex items-center">
             <div className="w-30 sm:w-32 md:w-40 lg:w-52">
@@ -111,7 +112,7 @@ export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
         </div>
 
         {/* Center Nav */}
-        <div className="hidden flex-1 justify-center md:flex">
+        <div ref={container} className="hidden flex-1 justify-center md:flex">
           <nav className="text-md flex gap-2 font-medium">
             {navLinks.map((item, index) => (
               <Link

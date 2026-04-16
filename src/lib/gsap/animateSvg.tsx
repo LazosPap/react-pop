@@ -13,7 +13,7 @@ export function animateSvg(svgElement: SVGSVGElement) {
   const paths = Array.from(svgElement.querySelectorAll<SVGPathElement>("path"));
 
   /** Loop each path to draw the SVG path while the styles from the SVGPathElement. */
-  paths.forEach((p) => {
+  paths.map((p) => {
     const fill = p.getAttribute("fill") || "#FB3640";
     p.style.fill = fill;
     p.style.fillOpacity = "0";
