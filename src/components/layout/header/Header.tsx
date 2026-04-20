@@ -8,6 +8,7 @@ import { LogoText } from "@/assets/svg";
 import { PopcornAnimation } from "@/components/layout/header/PopcornAnimation";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { animateSvg } from "@/lib/gsap";
+import type { HeaderProps } from "@/types/header";
 
 /**
  * Header component to display a fixed top navbar.
@@ -18,13 +19,6 @@ import { animateSvg } from "@/lib/gsap";
  * @param popcorn - Popcorn images(optional) to animate the array of the popcorn for logo.
  * @returns - The rendered header component.
  */
-
-export interface HeaderProps {
-  logo: string;
-  navLinks: string[];
-  activeMenu?: string;
-  popcorn?: string[];
-}
 
 export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
   const container = useRef<HTMLDivElement | null>(null);

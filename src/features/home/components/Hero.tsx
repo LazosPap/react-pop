@@ -1,11 +1,17 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Flip } from "gsap/all";
-import { Printer } from "lucide-react";
 import { useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { ARRANGEMENTS, IMAGE_IDS, IMAGE_MAP, ITEM_SIZES, MODES } from "@/features/home/constants";
+import {
+  ARRANGEMENTS,
+  IMAGE_IDS,
+  IMAGE_MAP,
+  ITEM_SIZES,
+  MODES,
+  MODE_ICONS
+} from "@/features/home/constants";
 import { ArrangementMode } from "@/features/home/types";
 
 /** Hero component while using GSAP for Flipping images. */
@@ -18,6 +24,7 @@ export function Hero() {
   /** State for the button we switch modes. */
   const [activeMode, setActiveMode] = useState<ArrangementMode>("START");
 
+  /** Layout for the Flip of the GSAP. */
   const setLayout = (mode: ArrangementMode) => {
     if (!desk.current || !header.current) return;
 
@@ -94,10 +101,11 @@ export function Hero() {
     setActiveMode(mode);
   };
 
-  /** First init of the GSAP animation. */
+  /** First init of the GSAP animation and remove the wave while scrolling to not block the vision of the user. */
   useGSAP(
     () => {
       setLayout("START");
+      window.addEventListener("resize", () => setLayout(activeMode));
     },
     { scope: desk }
   );
@@ -105,15 +113,17 @@ export function Hero() {
   return (
     <section
       ref={desk}
-      className="relative mt-0 h-[80svh] w-full max-w-350
+      className="relative mt-0 h-[80svh] w-full max-w-350 [@media(max-width:1000px)]:after:absolute
+        [@media(max-width:1000px)]:after:inset-0 [@media(max-width:1000px)]:after:h-full
+        [@media(max-width:1000px)]:after:w-full [@media(max-width:1000px)]:after:content-['']
         [@media(max-width:1400px)]:overflow-x-hidden"
     >
       <div
         ref={header}
         className="pointer-events-none absolute z-10 flex w-100 flex-col gap-3 text-center"
       >
-        <h1 className="text-2xl font-bold">React Pop</h1>
-        <p className="text-gray-500">New components coming soon.</p>
+        <h1 className="text-3xl font-bold">React Pop</h1>
+        <p className="text-lg text-gray-500">New components coming soon!</p>
       </div>
       {IMAGE_IDS.map((id, index) => (
         <div
@@ -122,22 +132,26 @@ export function Hero() {
             if (el) itemRefs.current[index] = el;
           }}
           id={id}
-          className="item will-change-[transform, top,left] absolute"
+          className="item will-change-[transform, top,left] absolute w-full"
         >
           <img src={IMAGE_MAP[id]} className="h-full w-full object-contain" />
         </div>
       ))}
       <div className="fixed bottom-[20.5svh] left-1/2 z-10 hidden -translate-x-1/2 gap-2 lg:flex">
-        {MODES.map((mode) => (
-          <Button
-            key={mode}
-            className={`focus:border-accent rounded-md border p-2 focus:bg-slate-200
-            focus:outline-none ${activeMode === mode ? "bg-gray-200" : ""}`}
-            onClick={() => switchMode(mode as ArrangementMode)}
-          >
-            <Printer />
-          </Button>
-        ))}
+        {MODES.map((mode) => {
+          const Icon = MODE_ICONS[mode];
+
+          return (
+            <Button
+              key={mode}
+              className={`h-12 w-12 rounded-md border p-2 focus:bg-slate-200 focus:outline-none
+              ${activeMode === mode ? "bg-gray-200" : ""}`}
+              onClick={() => switchMode(mode as ArrangementMode)}
+            >
+              {Icon && <Icon />}
+            </Button>
+          );
+        })}
       </div>
     </section>
   );

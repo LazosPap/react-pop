@@ -1,3 +1,5 @@
+import type { LucideIcon } from "lucide-react";
+
 import type { IMAGE_IDS } from "@/features/home/constants";
 
 /** Expose the names of the image id's for the autocomplete. */
@@ -11,6 +13,9 @@ export type ItemSizes = Record<ImageId, number>;
 
 /** Mode for the buttons as union type for type safety. */
 export type ArrangementMode = "START" | "CHAOS";
+
+/** Decalre the icons for each mode button. */
+export type ModeIcons = Record<string, LucideIcon>;
 
 export type ArrangementsType = Record<ArrangementMode, Arrangement>;
 

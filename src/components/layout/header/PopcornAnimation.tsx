@@ -56,7 +56,8 @@ export function PopcornAnimation() {
         z: 0,
         scale: 0.4,
         rotation: gsap.utils.random(-20, 20),
-        transformOrigin: "center center"
+        transformOrigin: "center center",
+        zIndex: -1
       });
 
       gsap
