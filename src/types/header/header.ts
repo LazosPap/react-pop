@@ -1,6 +1,6 @@
+import type { NavLink } from "@/constants";
+
 export interface HeaderProps {
   logo: string;
-  navLinks: string[];
-  activeMenu?: string;
-  popcorn?: string[];
+  navLinks: NavLink[];
 }

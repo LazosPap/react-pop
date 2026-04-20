@@ -15,12 +15,11 @@ import type { HeaderProps } from "@/types/header";
  *
  * @param logo - Accepts a string so you can place the logo image.
  * @param navLinks - navLinks accepts an array so you can map the links.
- * @param activeMenu - activeMenu(optional) we pass a string of the route name we want.
  * @param popcorn - Popcorn images(optional) to animate the array of the popcorn for logo.
  * @returns - The rendered header component.
  */
 
-export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
+export function Header({ logo, navLinks }: HeaderProps) {
   const container = useRef<HTMLDivElement | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
 
@@ -110,16 +109,17 @@ export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
           <nav className="text-md flex gap-2 font-medium">
             {navLinks.map((item, index) => (
               <Link
-                className={`group relative rounded-md px-4 py-2 transition-all duration-300 ease-out
-                ${item === activeMenu ? "bg-muted text-primary" : ""} `}
-                to={item === "Home" ? "/" : item.toLowerCase()}
                 key={index}
+                to={item.to}
+                activeProps={{ className: "bg-muted text-primary is-active" }}
+                className="group relative rounded-md px-4 py-2 transition-all duration-300 ease-out"
               >
-                {item}
+                {item.label}
                 <span
                   className="absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 bg-black
-                    transition-transform duration-300 group-hover:scale-x-100"
-                ></span>
+                    transition-transform duration-300 group-hover:scale-x-100
+                    group-[.is-active]:hidden"
+                />
               </Link>
             ))}
           </nav>
@@ -131,36 +131,36 @@ export function Header({ logo, navLinks, activeMenu }: HeaderProps) {
         <SheetTrigger asChild>
           <div className="flex flex-col gap-1 md:hidden">
             <div
-              className="bg-accent flex h-12 w-12 cursor-pointer flex-col items-center
-                justify-center gap-[0.4rem] rounded-full md:h-20 md:w-20"
+              className="bg-accent flex h-12 w-12 cursor-pointer items-center justify-center
+                rounded-full"
             >
               <MenuIcon className="h-8 w-8" />
             </div>
           </div>
         </SheetTrigger>
+
         <SheetContent className="overflow-y-auto">
           <SheetHeader>
             <SheetTitle>
-              <img src={logo} className="h-24 w-24 dark:invert" alt="asd" />
+              <img src={logo} className="h-24 w-24 dark:invert" alt="logo" />
             </SheetTitle>
           </SheetHeader>
+
+          {/* Mobile Nav for the sheet.*/}
+          <nav className="flex flex-col items-center gap-4 py-6">
+            {navLinks.map((item) => (
+              <Link
+                key={item.to}
+                to={item.to}
+                activeProps={{ className: "text-primary font-bold" }}
+                className="text-lg font-medium"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
         </SheetContent>
       </Sheet>
-
-      {/* Mobile Menu */}
-      <div className="overflow-hidden bg-white/90 backdrop-blur-md md:hidden" style={{ height: 0 }}>
-        <nav className="flex flex-col items-center gap-4 py-6">
-          {navLinks.map((item, index) => (
-            <Link
-              key={index}
-              to={item === "Home" ? "/" : item.toLowerCase()}
-              className={`text-lg font-medium ${item === activeMenu ? "text-primary" : ""}`}
-            >
-              {item}
-            </Link>
-          ))}
-        </nav>
-      </div>
     </header>
   );
 }
