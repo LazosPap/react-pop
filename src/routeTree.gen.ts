@@ -10,49 +10,49 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as homeLayoutRouteImport } from './routes/(home)/layout'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as homeDocsRouteImport } from './routes/(home)/docs'
+import { Route as homeIndexRouteImport } from './routes/(home)/index'
+import { Route as documentationDocsRouteImport } from './routes/(documentation)/docs'
 
 const homeLayoutRoute = homeLayoutRouteImport.update({
   id: '/(home)',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
+const homeIndexRoute = homeIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const homeDocsRoute = homeDocsRouteImport.update({
-  id: '/docs',
-  path: '/docs',
   getParentRoute: () => homeLayoutRoute,
+} as any)
+const documentationDocsRoute = documentationDocsRouteImport.update({
+  id: '/(documentation)/docs',
+  path: '/docs',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/docs': typeof homeDocsRoute
+  '/docs': typeof documentationDocsRoute
+  '/': typeof homeIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/docs': typeof homeDocsRoute
+  '/docs': typeof documentationDocsRoute
+  '/': typeof homeIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
   '/(home)': typeof homeLayoutRouteWithChildren
-  '/(home)/docs': typeof homeDocsRoute
+  '/(documentation)/docs': typeof documentationDocsRoute
+  '/(home)/': typeof homeIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/docs'
+  fullPaths: '/docs' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/docs'
-  id: '__root__' | '/' | '/(home)' | '/(home)/docs'
+  to: '/docs' | '/'
+  id: '__root__' | '/(home)' | '/(documentation)/docs' | '/(home)/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
   homeLayoutRoute: typeof homeLayoutRouteWithChildren
+  documentationDocsRoute: typeof documentationDocsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -64,29 +64,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homeLayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/(home)/': {
+      id: '/(home)/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof homeIndexRouteImport
+      parentRoute: typeof homeLayoutRoute
     }
-    '/(home)/docs': {
-      id: '/(home)/docs'
+    '/(documentation)/docs': {
+      id: '/(documentation)/docs'
       path: '/docs'
       fullPath: '/docs'
-      preLoaderRoute: typeof homeDocsRouteImport
-      parentRoute: typeof homeLayoutRoute
+      preLoaderRoute: typeof documentationDocsRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
 interface homeLayoutRouteChildren {
-  homeDocsRoute: typeof homeDocsRoute
+  homeIndexRoute: typeof homeIndexRoute
 }
 
 const homeLayoutRouteChildren: homeLayoutRouteChildren = {
-  homeDocsRoute: homeDocsRoute,
+  homeIndexRoute: homeIndexRoute,
 }
 
 const homeLayoutRouteWithChildren = homeLayoutRoute._addFileChildren(
@@ -94,8 +94,8 @@ const homeLayoutRouteWithChildren = homeLayoutRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
   homeLayoutRoute: homeLayoutRouteWithChildren,
+  documentationDocsRoute: documentationDocsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
