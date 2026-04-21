@@ -111,33 +111,37 @@ export function Hero() {
   );
 
   return (
-    <section
-      ref={desk}
-      className="relative mt-0 h-[80svh] w-full max-w-350 [@media(max-width:1000px)]:after:absolute
-        [@media(max-width:1000px)]:after:inset-0 [@media(max-width:1000px)]:after:h-full
-        [@media(max-width:1000px)]:after:w-full [@media(max-width:1000px)]:after:content-['']
-        [@media(max-width:1400px)]:overflow-x-hidden"
-    >
+    <section>
       <div
-        ref={header}
-        className="pointer-events-none absolute z-10 flex w-100 flex-col gap-3 text-center"
+        ref={desk}
+        className="relative mt-0 h-[80svh] w-full max-w-350
+          [@media(max-width:1000px)]:after:absolute [@media(max-width:1000px)]:after:inset-0
+          [@media(max-width:1000px)]:after:h-full [@media(max-width:1000px)]:after:w-full
+          [@media(max-width:1000px)]:after:content-['']
+          [@media(max-width:1400px)]:overflow-x-hidden"
       >
-        <h1 className="text-3xl font-bold">React Pop</h1>
-        <p className="text-lg text-gray-500">New components coming soon!</p>
-      </div>
-      {IMAGE_IDS.map((id, index) => (
         <div
-          key={id}
-          ref={(el) => {
-            if (el) itemRefs.current[index] = el;
-          }}
-          id={id}
-          className="item will-change-[transform, top,left] absolute w-full"
+          ref={header}
+          className="pointer-events-none absolute -z-10 flex w-100 flex-col gap-3 text-center"
         >
-          <img src={IMAGE_MAP[id]} className="h-full w-full object-contain" />
+          <h1 className="text-3xl font-bold">React Pop</h1>
+          <p className="text-lg text-gray-500">New components coming soon!</p>
         </div>
-      ))}
-      <div className="fixed bottom-[20.5svh] left-1/2 z-10 hidden -translate-x-1/2 gap-2 lg:flex">
+        {IMAGE_IDS.map((id, index) => (
+          <div
+            key={id}
+            ref={(el) => {
+              if (el) itemRefs.current[index] = el;
+            }}
+            id={id}
+            className="item will-change-[transform, top,left] absolute w-full"
+          >
+            <img src={IMAGE_MAP[id]} className="h-full w-full object-contain" />
+          </div>
+        ))}
+      </div>
+
+      <div className="absolute bottom-[20.5svh] left-1/2 z-10 hidden -translate-x-1/2 gap-2 lg:flex">
         {MODES.map((mode) => {
           const Icon = MODE_ICONS[mode];
 

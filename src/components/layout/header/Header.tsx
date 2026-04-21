@@ -1,6 +1,7 @@
 import { useGSAP } from "@gsap/react";
 import { Link } from "@tanstack/react-router";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/all";
 import { MenuIcon } from "lucide-react";
 import { useRef } from "react";
 
@@ -85,6 +86,9 @@ export function Header({ logo, navLinks }: HeaderProps) {
     if (svgRef.current) {
       animateSvg(svgRef.current);
     }
+
+    /** Refresh the ScrollTrigger when we refresh the page and we have scrolled down, so we can show the blur on the header bg. */
+    ScrollTrigger.refresh();
   }, []);
 
   return (
