@@ -1,4 +1,4 @@
-import type { NavLink } from "@/constants";
+import type { NavLink } from "@/types/navLinks";
 
 export interface HeaderProps {
   logo: string;
